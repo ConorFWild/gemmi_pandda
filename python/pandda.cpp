@@ -22,7 +22,7 @@ namespace py = pybind11;
 using namespace gemmi;
 
 
-Grid<float> interpolate_to_list(
+std::vector<double> interpolate_to_list(
     Grid<float> moving_map,
     std::vector<std::vector<int>> point_vec,
     std::vector<std::vector<double>> pos_vec,

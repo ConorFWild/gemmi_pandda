@@ -24,6 +24,7 @@ using namespace gemmi;
 
 std::vector<double> interpolate_to_list(
     Grid<float> moving_map,
+    Grid<float> interpolated_map, 
     std::vector<std::vector<int>> point_vec,
     std::vector<std::vector<double>> pos_vec,
     std::vector<Transform> transform_vec,

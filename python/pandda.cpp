@@ -98,7 +98,7 @@ Grid<float> interpolate_points(
 
         // Position
         std::vector<int> point = point_vec[i];
-        cout << "Point: " << point[0] << " " << point[1] << " " << point[2];
+        cout << "Point: " << point[0] << " " << point[1] << " " << point[2] << "\n";
 
         Fractional fractional = Fractional(
             point[0] * (1.0 / interpolated_map.nu), 
@@ -107,16 +107,16 @@ Grid<float> interpolate_points(
             );
         Position pos = interpolated_map.unit_cell.orthogonalize(fractional);
         Transform transform = transform_vec[i];
-        cout << "Trasform: " << transform.vec[0] << " " << transform.vec[1] << " " << transform.vec[2];
-        cout << "Trasform: " << transform.mat[0][0] << " " << transform.mat[0][1] << " " << transform.mat[0][2];
-        cout << "Trasform: " << transform.mat[1][0] << " " << transform.mat[1][1] << " " << transform.mat[1][2];
-        cout << "Trasform: " << transform.mat[2][0] << " " << transform.mat[2][1] << " " << transform.mat[2][2];
+        cout << "Trasform: " << transform.vec[0] << " " << transform.vec[1] << " " << transform.vec[2] << "\n";
+        cout << "Trasform: " << transform.mat[0][0] << " " << transform.mat[0][1] << " " << transform.mat[0][2] << "\n";
+        cout << "Trasform: " << transform.mat[1][0] << " " << transform.mat[1][1] << " " << transform.mat[1][2] << "\n";
+        cout << "Trasform: " << transform.mat[2][0] << " " << transform.mat[2][1] << " " << transform.mat[2][2] << "\n";
         
 
         std::vector<double> com_moving = com_moving_vec[i];
-        cout << "com_moving: " << com_moving[0] << " " << com_moving[1] << " " << com_moving[2];
+        cout << "com_moving: " << com_moving[0] << " " << com_moving[1] << " " << com_moving[2] << "\n";
         std::vector<double> com_reference = com_reference_vec[i];
-        cout << "com_reference: " << com_reference[0] << " " << com_reference[1] << " " << com_reference[2];
+        cout << "com_reference: " << com_reference[0] << " " << com_reference[1] << " " << com_reference[2] << "\n";
 
         //Subtract reference com
         pos.x -= com_reference[0];

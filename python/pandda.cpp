@@ -154,108 +154,108 @@ Grid<float> interpolate_points(
 }
 
 
-std::vector<Fractional> points_to_positions(
-    Grid<float> interpolated_map, 
-    std::vector<std::vector<int>> point_vec
-    )
-{
+// std::vector<Fractional> points_to_positions(
+//     Grid<float> interpolated_map, 
+//     std::vector<std::vector<int>> point_vec
+//     )
+// {
 
-    std::vector<Fractional> position_vec(position_vec.size());
+//     std::vector<Fractional> position_vec(position_vec.size());
 
-    for (std::size_t i=0; i < point_vec.size(); i++)
-    {
-        // Position
-        std::vector<int> point = point_vec[i];
+//     for (std::size_t i=0; i < point_vec.size(); i++)
+//     {
+//         // Position
+//         std::vector<int> point = point_vec[i];
 
-        Fractional fractional = Fractional(
-            point[0] * (1.0 / interpolated_map.nu), 
-            point[1] * (1.0 / interpolated_map.nv), 
-            point[2] * (1.0 / interpolated_map.nw)
-            );
-        Position pos = interpolated_map.unit_cell.orthogonalize(fractional);
+//         Fractional fractional = Fractional(
+//             point[0] * (1.0 / interpolated_map.nu), 
+//             point[1] * (1.0 / interpolated_map.nv), 
+//             point[2] * (1.0 / interpolated_map.nw)
+//             );
+//         Position pos = interpolated_map.unit_cell.orthogonalize(fractional);
         
-        position_vec[i] = pos;
+//         position_vec[i] = pos;
 
-    }
+//     }
 
-    return position_vec;
+//     return position_vec;
 
-}
+// }
 
-std::vector<Fractional> transform_positions(
-    position_vec,
-    transform_vec,
-    com_moving_vec,
-    com_reference_vec
-)
-{
-    std::vector<Fractional> fractional_vec(position_vec.size());
+// std::vector<Fractional> transform_positions(
+//     position_vec,
+//     transform_vec,
+//     com_moving_vec,
+//     com_reference_vec
+// )
+// {
+//     std::vector<Fractional> fractional_vec(position_vec.size());
     
-    for (std::size_t i=0; i < position_vec.size(); i++)
-    {
-        // Position
-        Position pos = position_vec[i];
-        Transform transform = transform_vec[i];
-        std::vector<double> com_moving = com_moving_vec[i];
-        std::vector<double> com_reference = com_reference_vec[i];
+//     for (std::size_t i=0; i < position_vec.size(); i++)
+//     {
+//         // Position
+//         Position pos = position_vec[i];
+//         Transform transform = transform_vec[i];
+//         std::vector<double> com_moving = com_moving_vec[i];
+//         std::vector<double> com_reference = com_reference_vec[i];
 
-        //Subtract reference com
-        pos.x -= com_reference[0];
-        pos.y -= com_reference[1];
-        pos.z -= com_reference[2];
+//         //Subtract reference com
+//         pos.x -= com_reference[0];
+//         pos.y -= com_reference[1];
+//         pos.z -= com_reference[2];
 
-        //transform
-        Position pos_moving = Position(transform.apply(pos));
+//         //transform
+//         Position pos_moving = Position(transform.apply(pos));
 
-        // add moving com
-        pos_moving.x += com_moving[0];
-        pos_moving.y += com_moving[1];
-        pos_moving.z += com_moving[2];
+//         // add moving com
+//         pos_moving.x += com_moving[0];
+//         pos_moving.y += com_moving[1];
+//         pos_moving.z += com_moving[2];
 
-        // fractionalise
-        Fractional pos_moving_fractional = moving_map.unit_cell.fractionalize(pos_moving);
+//         // fractionalise
+//         Fractional pos_moving_fractional = moving_map.unit_cell.fractionalize(pos_moving);
 
-        fractional_vec[i] = pos_moving_fractional;
+//         fractional_vec[i] = pos_moving_fractional;
 
-    }
+//     }
 
-    return fractional_vec;
-}
+//     return fractional_vec;
+// }
 
-Grid<float> interpolate_points_from_positions(
-    Grid<float> moving_map,
-    Grid<float> interpolated_map, 
-    std::vector<std::vector<int>> point_vec,
-    std::vector<Fractional> position_vec
-    )
-{
-    // Release gil for threading support
-    py::gil_scoped_release release;
+// Grid<float> interpolate_points_from_positions(
+//     Grid<float> moving_map,
+//     Grid<float> interpolated_map, 
+//     std::vector<std::vector<int>> point_vec,
+//     std::vector<Fractional> position_vec
+//     )
+// {
+//     // Release gil for threading support
+//     py::gil_scoped_release release;
 
-    // Iterate over the corresponding points and positions to interpolate at 
-    for (std::size_t i=0; i < position_vec.size(); i++)
-    {
-        std::vector<int> point = point_vec[i];
+//     // Iterate over the corresponding points and positions to interpolate at 
+//     for (std::size_t i=0; i < position_vec.size(); i++)
+//     {
+//         std::vector<int> point = point_vec[i];
 
-        Fractional position = position_vec[i];
+//         Fractional position = position_vec[i];
 
-        // interpolate
-        float interpolated_value = moving_map.interpolate_value(position);
+//         // interpolate
+//         float interpolated_value = moving_map.interpolate_value(position);
 
-        // assign
-        interpolated_map.set_value(
-            point[0],
-            point[1],
-            point[2],
-            interpolated_value
-            );
+//         // assign
+//         interpolated_map.set_value(
+//             point[0],
+//             point[1],
+//             point[2],
+//             interpolated_value
+//             );
 
 
-    };
+//     };
 
-    return interpolated_map;
+//     return interpolated_map;
 
-}
+// }
 
 
 
